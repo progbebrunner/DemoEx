@@ -67,7 +67,7 @@ namespace DemoEx.Pages
                 curr_req.status = cbxStatus.SelectedIndex + 1;
                 curr_req.worker = App.context.Users.Where(u => u.login == cbxWorker.SelectedValue.ToString()).Select(u => u.id_user).FirstOrDefault();
                 App.context.SaveChanges();
-                MessageBox.Show("Данные по заявке успешно обновлены!");
+                MessageBox.Show("Данные по заявке успешно обновлены");
                 NavigationService.Navigate(new RequestsP());
             }
             else
