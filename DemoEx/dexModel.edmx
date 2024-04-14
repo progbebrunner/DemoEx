@@ -1,0 +1,720 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище dexModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Priorities">
+          <Key>
+            <PropertyRef Name="id_priority" />
+          </Key>
+          <Property Name="id_priority" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Reports">
+          <Key>
+            <PropertyRef Name="id_report" />
+          </Key>
+          <Property Name="id_report" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="request" Type="int" Nullable="false" />
+          <Property Name="dt_start" Type="datetime" />
+          <Property Name="dt_finish" Type="datetime" />
+          <Property Name="materials" Type="nvarchar" MaxLength="100" />
+          <Property Name="price" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Requests">
+          <Key>
+            <PropertyRef Name="id_req" />
+          </Key>
+          <Property Name="id_req" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="client" Type="int" Nullable="false" />
+          <Property Name="serial_number" Type="float" />
+          <Property Name="type_of_eq" Type="int" Nullable="false" />
+          <Property Name="type_of_problem" Type="int" />
+          <Property Name="description" Type="nvarchar" MaxLength="333" />
+          <Property Name="worker" Type="int" />
+          <Property Name="priority" Type="int" Nullable="false" />
+          <Property Name="status" Type="int" Nullable="false" />
+          <Property Name="date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="id_role" />
+          </Key>
+          <Property Name="id_role" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Statuses_of_request">
+          <Key>
+            <PropertyRef Name="id_req_status" />
+          </Key>
+          <Property Name="id_req_status" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Types_of_equipment">
+          <Key>
+            <PropertyRef Name="id_type_of_eq" />
+          </Key>
+          <Property Name="id_type_of_eq" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Types_of_problem">
+          <Key>
+            <PropertyRef Name="id_type_of_problem" />
+          </Key>
+          <Property Name="id_type_of_problem" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="13" Nullable="false" />
+          <Property Name="role" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="surname" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Reports_Requests_for_pair">
+          <End Role="Requests" Type="Self.Requests" Multiplicity="1" />
+          <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requests">
+              <PropertyRef Name="id_req" />
+            </Principal>
+            <Dependent Role="Reports">
+              <PropertyRef Name="request" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_for_pair_Priorities">
+          <End Role="Priorities" Type="Self.Priorities" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Priorities">
+              <PropertyRef Name="id_priority" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_for_pair_Statuses_of_request">
+          <End Role="Statuses_of_request" Type="Self.Statuses_of_request" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statuses_of_request">
+              <PropertyRef Name="id_req_status" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_for_pair_Types_of_equipment">
+          <End Role="Types_of_equipment" Type="Self.Types_of_equipment" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types_of_equipment">
+              <PropertyRef Name="id_type_of_eq" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="type_of_eq" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_for_pair_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_for_repair_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="worker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_for_repair_Users1">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="worker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_Types_of_problem">
+          <End Role="Types_of_problem" Type="Self.Types_of_problem" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types_of_problem">
+              <PropertyRef Name="id_type_of_problem" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="type_of_problem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="id_role" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="Хранилище dexModelContainer">
+          <EntitySet Name="Priorities" EntityType="Self.Priorities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reports" EntityType="Self.Reports" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Requests" EntityType="Self.Requests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Statuses_of_request" EntityType="Self.Statuses_of_request" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Types_of_equipment" EntityType="Self.Types_of_equipment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Types_of_problem" EntityType="Self.Types_of_problem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Reports_Requests_for_pair" Association="Self.FK_Reports_Requests_for_pair">
+            <End Role="Requests" EntitySet="Requests" />
+            <End Role="Reports" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_for_pair_Priorities" Association="Self.FK_Requests_for_pair_Priorities">
+            <End Role="Priorities" EntitySet="Priorities" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_for_pair_Statuses_of_request" Association="Self.FK_Requests_for_pair_Statuses_of_request">
+            <End Role="Statuses_of_request" EntitySet="Statuses_of_request" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_for_pair_Types_of_equipment" Association="Self.FK_Requests_for_pair_Types_of_equipment">
+            <End Role="Types_of_equipment" EntitySet="Types_of_equipment" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_for_pair_Users" Association="Self.FK_Requests_for_pair_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_for_repair_Users" Association="Self.FK_Requests_for_repair_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_for_repair_Users1" Association="Self.FK_Requests_for_repair_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_Types_of_problem" Association="Self.FK_Requests_Types_of_problem">
+            <End Role="Types_of_problem" EntitySet="Types_of_problem" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dexModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Priorities">
+          <Key>
+            <PropertyRef Name="id_priority" />
+          </Key>
+          <Property Name="id_priority" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Requests" Relationship="dexModel.FK_Requests_for_pair_Priorities" FromRole="Priorities" ToRole="Requests" />
+        </EntityType>
+        <EntityType Name="Reports">
+          <Key>
+            <PropertyRef Name="id_report" />
+          </Key>
+          <Property Name="id_report" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="request" Type="Int32" Nullable="false" />
+          <Property Name="dt_start" Type="DateTime" Precision="3" />
+          <Property Name="dt_finish" Type="DateTime" Precision="3" />
+          <Property Name="materials" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Requests" Relationship="dexModel.FK_Reports_Requests_for_pair" FromRole="Reports" ToRole="Requests" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="id_role" />
+          </Key>
+          <Property Name="id_role" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_Roles" FromRole="Roles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Statuses_of_request">
+          <Key>
+            <PropertyRef Name="id_req_status" />
+          </Key>
+          <Property Name="id_req_status" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Requests" Relationship="dexModel.FK_Requests_for_pair_Statuses_of_request" FromRole="Statuses_of_request" ToRole="Requests" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Types_of_equipment">
+          <Key>
+            <PropertyRef Name="id_type_of_eq" />
+          </Key>
+          <Property Name="id_type_of_eq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Requests" Relationship="dexModel.FK_Requests_for_pair_Types_of_equipment" FromRole="Types_of_equipment" ToRole="Requests" />
+        </EntityType>
+        <EntityType Name="Types_of_problem">
+          <Key>
+            <PropertyRef Name="id_type_of_problem" />
+          </Key>
+          <Property Name="id_type_of_problem" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Requests" Relationship="dexModel.FK_Requests_Types_of_problem" FromRole="Types_of_problem" ToRole="Requests" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="13" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="role" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Roles" Relationship="Self.FK_Users_Roles" FromRole="Users" ToRole="Roles" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="surname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Requests" Relationship="dexModel.FK_Requests_for_pair_Users" FromRole="Users" ToRole="Requests" />
+          <NavigationProperty Name="Requests1" Relationship="dexModel.FK_Requests_for_repair_Users1" FromRole="Users" ToRole="Requests" />
+          <NavigationProperty Name="Requests2" Relationship="dexModel.FK_Requests_for_repair_Users11" FromRole="Users" ToRole="Requests" />
+        </EntityType>
+        <Association Name="FK_Users_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="id_role" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dexEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Priorities" EntityType="Self.Priorities" />
+          <EntitySet Name="Reports" EntityType="Self.Reports" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" />
+          <EntitySet Name="Statuses_of_request" EntityType="Self.Statuses_of_request" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Types_of_equipment" EntityType="Self.Types_of_equipment" />
+          <EntitySet Name="Types_of_problem" EntityType="Self.Types_of_problem" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(dexModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(dexModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="Requests" EntityType="dexModel.Requests" />
+          <AssociationSet Name="FK_Requests_for_pair_Priorities" Association="dexModel.FK_Requests_for_pair_Priorities">
+            <End Role="Priorities" EntitySet="Priorities" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reports_Requests_for_pair" Association="dexModel.FK_Reports_Requests_for_pair">
+            <End Role="Requests" EntitySet="Requests" />
+            <End Role="Reports" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_for_pair_Statuses_of_request" Association="dexModel.FK_Requests_for_pair_Statuses_of_request">
+            <End Role="Statuses_of_request" EntitySet="Statuses_of_request" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_for_pair_Types_of_equipment" Association="dexModel.FK_Requests_for_pair_Types_of_equipment">
+            <End Role="Types_of_equipment" EntitySet="Types_of_equipment" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_for_pair_Users" Association="dexModel.FK_Requests_for_pair_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_for_repair_Users1" Association="dexModel.FK_Requests_for_repair_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_for_repair_Users11" Association="dexModel.FK_Requests_for_repair_Users11">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_Types_of_problem" Association="dexModel.FK_Requests_Types_of_problem">
+            <End Role="Types_of_problem" EntitySet="Types_of_problem" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="Requests">
+          <Key>
+            <PropertyRef Name="id_req" />
+          </Key>
+          <Property Name="id_req" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="client" Type="Int32" Nullable="false" />
+          <Property Name="serial_number" Type="Double" />
+          <Property Name="type_of_eq" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="333" FixedLength="false" Unicode="true" />
+          <Property Name="worker" Type="Int32" />
+          <Property Name="priority" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Priorities" Relationship="dexModel.FK_Requests_for_pair_Priorities" FromRole="Requests" ToRole="Priorities" />
+          <NavigationProperty Name="Reports" Relationship="dexModel.FK_Reports_Requests_for_pair" FromRole="Requests" ToRole="Reports" />
+          <NavigationProperty Name="Statuses_of_request" Relationship="dexModel.FK_Requests_for_pair_Statuses_of_request" FromRole="Requests" ToRole="Statuses_of_request" />
+          <NavigationProperty Name="Types_of_equipment" Relationship="dexModel.FK_Requests_for_pair_Types_of_equipment" FromRole="Requests" ToRole="Types_of_equipment" />
+          <NavigationProperty Name="Users" Relationship="dexModel.FK_Requests_for_pair_Users" FromRole="Requests" ToRole="Users" />
+          <NavigationProperty Name="Users1" Relationship="dexModel.FK_Requests_for_repair_Users1" FromRole="Requests" ToRole="Users" />
+          <NavigationProperty Name="Users2" Relationship="dexModel.FK_Requests_for_repair_Users11" FromRole="Requests" ToRole="Users" />
+          <Property Name="type_of_problem" Type="Int32" />
+          <NavigationProperty Name="Types_of_problem" Relationship="dexModel.FK_Requests_Types_of_problem" FromRole="Requests" ToRole="Types_of_problem" />
+        </EntityType>
+        <Association Name="FK_Requests_for_pair_Priorities">
+          <End Type="dexModel.Priorities" Role="Priorities" Multiplicity="1" />
+          <End Type="dexModel.Requests" Role="Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Priorities">
+              <PropertyRef Name="id_priority" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reports_Requests_for_pair">
+          <End Type="dexModel.Requests" Role="Requests" Multiplicity="1" />
+          <End Type="dexModel.Reports" Role="Reports" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requests">
+              <PropertyRef Name="id_req" />
+            </Principal>
+            <Dependent Role="Reports">
+              <PropertyRef Name="request" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_for_pair_Statuses_of_request">
+          <End Type="dexModel.Statuses_of_request" Role="Statuses_of_request" Multiplicity="1" />
+          <End Type="dexModel.Requests" Role="Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statuses_of_request">
+              <PropertyRef Name="id_req_status" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_for_pair_Types_of_equipment">
+          <End Type="dexModel.Types_of_equipment" Role="Types_of_equipment" Multiplicity="1" />
+          <End Type="dexModel.Requests" Role="Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types_of_equipment">
+              <PropertyRef Name="id_type_of_eq" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="type_of_eq" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_for_pair_Users">
+          <End Type="dexModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="dexModel.Requests" Role="Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_for_repair_Users1">
+          <End Type="dexModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="dexModel.Requests" Role="Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="worker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_for_repair_Users11">
+          <End Type="dexModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="dexModel.Requests" Role="Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="worker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_Types_of_problem">
+          <End Type="dexModel.Types_of_problem" Role="Types_of_problem" Multiplicity="0..1" />
+          <End Type="dexModel.Requests" Role="Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types_of_problem">
+              <PropertyRef Name="id_type_of_problem" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="type_of_problem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище dexModelContainer" CdmEntityContainer="dexEntities">
+          <EntitySetMapping Name="Priorities">
+            <EntityTypeMapping TypeName="dexModel.Priorities">
+              <MappingFragment StoreEntitySet="Priorities">
+                <ScalarProperty Name="id_priority" ColumnName="id_priority" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="dexModel.Reports">
+              <MappingFragment StoreEntitySet="Reports">
+                <ScalarProperty Name="id_report" ColumnName="id_report" />
+                <ScalarProperty Name="request" ColumnName="request" />
+                <ScalarProperty Name="dt_start" ColumnName="dt_start" />
+                <ScalarProperty Name="dt_finish" ColumnName="dt_finish" />
+                <ScalarProperty Name="materials" ColumnName="materials" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="dexModel.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Statuses_of_request">
+            <EntityTypeMapping TypeName="dexModel.Statuses_of_request">
+              <MappingFragment StoreEntitySet="Statuses_of_request">
+                <ScalarProperty Name="id_req_status" ColumnName="id_req_status" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="dexModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Types_of_equipment">
+            <EntityTypeMapping TypeName="dexModel.Types_of_equipment">
+              <MappingFragment StoreEntitySet="Types_of_equipment">
+                <ScalarProperty Name="id_type_of_eq" ColumnName="id_type_of_eq" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Types_of_problem">
+            <EntityTypeMapping TypeName="dexModel.Types_of_problem">
+              <MappingFragment StoreEntitySet="Types_of_problem">
+                <ScalarProperty Name="id_type_of_problem" ColumnName="id_type_of_problem" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="dexModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="role" ColumnName="role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище dexModel.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище dexModel.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище dexModel.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище dexModel.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dexModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище dexModel.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dexModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище dexModel.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище dexModel.sp_upgraddiagrams" />
+          <EntitySetMapping Name="Requests">
+            <EntityTypeMapping TypeName="dexModel.Requests">
+              <MappingFragment StoreEntitySet="Requests">
+                <ScalarProperty Name="type_of_problem" ColumnName="type_of_problem" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="priority" ColumnName="priority" />
+                <ScalarProperty Name="worker" ColumnName="worker" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="type_of_eq" ColumnName="type_of_eq" />
+                <ScalarProperty Name="serial_number" ColumnName="serial_number" />
+                <ScalarProperty Name="client" ColumnName="client" />
+                <ScalarProperty Name="id_req" ColumnName="id_req" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

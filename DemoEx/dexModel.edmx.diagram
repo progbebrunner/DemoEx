@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5ef59eb5db0043f7b83b2f8aa9c2a2ff" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="dexModel.Priorities" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dexModel.Reports" Width="1.5" PointX="7.5" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dexModel.Roles" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dexModel.Statuses_of_request" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dexModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dexModel.Types_of_equipment" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="dexModel.Types_of_problem" Width="1.5" PointX="7.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dexModel.Users" Width="1.5" PointX="5.25" PointY="2.25" IsExpanded="true" />
+        <AssociationConnector Association="dexModel.FK_Users_Roles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="dexModel.Requests" Width="1.5" PointX="10.5" PointY="4.875" />
+        <AssociationConnector Association="dexModel.FK_Requests_for_pair_Priorities" />
+        <AssociationConnector Association="dexModel.FK_Reports_Requests_for_pair" />
+        <AssociationConnector Association="dexModel.FK_Requests_for_pair_Statuses_of_request" />
+        <AssociationConnector Association="dexModel.FK_Requests_for_pair_Types_of_equipment" />
+        <AssociationConnector Association="dexModel.FK_Requests_for_pair_Users" />
+        <AssociationConnector Association="dexModel.FK_Requests_for_repair_Users1" />
+        <AssociationConnector Association="dexModel.FK_Requests_for_repair_Users11" />
+        <AssociationConnector Association="dexModel.FK_Requests_Types_of_problem" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

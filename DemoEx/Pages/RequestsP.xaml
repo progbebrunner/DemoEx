@@ -1,0 +1,73 @@
+﻿<Page x:Class="DemoEx.Pages.RequestsP"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DemoEx.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="707" d:DesignWidth="1200"
+      Title="Заявки на ремонт">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="400"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="7" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox x:Name="tbxSearch" TextChanged="tbxSearch_TextChanged" Style="{StaticResource BscTBx}"/>
+            <ComboBox x:Name="cbxSort" Style="{StaticResource BscCBx}" SelectionChanged="cbxSort_SelectionChanged">
+                <ComboBoxItem Content="Заявка №: по возрастанию"/>
+                <ComboBoxItem Content="Заявка №: по убыванию"/>
+                <ComboBoxItem Content="Серийный №: по возрастанию"/>
+                <ComboBoxItem Content="Серийный №: по убыванию"/>
+            </ComboBox>
+            <ComboBox x:Name="cbxFilter" Style="{StaticResource BscCBx}" SelectionChanged="cbxSort_SelectionChanged">
+                <ComboBoxItem Content="Все типы оборудования"/>
+            </ComboBox>
+            <Button x:Name="btnAdd" Style="{StaticResource BscBtn}" Content="Добавить" Click="btnAdd_Click"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
+            <TextBlock Text="Заявка №" Style="{StaticResource ReqsTBl}"/>
+            <TextBlock Text="Клиент" Style="{StaticResource ReqsTBl}"/>
+            <TextBlock Text="Сер. №" Style="{StaticResource ReqsTBl}"/>
+            <TextBlock Text="Тип оборуд." Style="{StaticResource ReqsTBl}"/>
+            <TextBlock Text="Тип проблемы" Style="{StaticResource ReqsTBl}"/>
+            <TextBlock Text="Описание" Style="{StaticResource ReqsTBl}"/>
+            <TextBlock Text="Сотрудник" Style="{StaticResource ReqsTBl}"/>
+            <TextBlock Text="Приоритет" Style="{StaticResource ReqsTBl}"/>
+            <TextBlock Text="Статус" Style="{StaticResource ReqsTBl}"/>
+        </StackPanel>
+
+        <TextBlock x:Name="tblMsg" Grid.Row="2" Style="{StaticResource ReqsTBl}" Width="Auto"/>
+
+        <ListView x:Name="LVReqs" Grid.Row="3" d:ItemsSource="{d:SampleData ItemCount=5}" HorizontalAlignment="Center" Width="Auto" HorizontalContentAlignment="Center" BorderBrush="Transparent">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding id_req}" Style="{StaticResource ReqsTBl}"/>
+                                <TextBlock Text="{Binding new_client}" Style="{StaticResource ReqsTBl}"/>
+                                <TextBlock Text="{Binding serial_number}" Style="{StaticResource ReqsTBl}"/>
+                                <TextBlock Text="{Binding Types_of_equipment.name}" Style="{StaticResource ReqsTBl}"/>
+                                <TextBlock Text="{Binding Types_of_problem.name}" Style="{StaticResource ReqsTBl}"/>
+                                <TextBlock Text="{Binding description}" Style="{StaticResource ReqsTBl}" Width="111"/>
+                                <TextBlock Text="{Binding new_worker}" Style="{StaticResource ReqsTBl}"/>
+                                <TextBlock Text="{Binding Priorities.name}" Style="{StaticResource ReqsTBl}"/>
+                                <TextBlock Text="{Binding Statuses_of_request.name}" Style="{StaticResource ReqsTBl}"/>
+                            </StackPanel>
+                            <Button x:Name="btnEdit" Style="{StaticResource BscBtn}" Content="Редактировать" Click="btnEdit_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

@@ -1,0 +1,35 @@
+﻿<Page x:Class="DemoEx.Pages.AddEdit"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DemoEx.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1100"
+      Title="AddEdit">
+
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="550"/>
+            <ColumnDefinition Width="550"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock x:Name="tblEqType" Style="{StaticResource ReqsTBl}" Text="Оборудование" Width="300"/>
+            <TextBlock x:Name="tblStatus" Style="{StaticResource ReqsTBl}" Text="Статус заявки" Width="300"/>
+            <TextBlock x:Name="tblPrType" Style="{StaticResource ReqsTBl}" Text="Тип неисправности" Width="300"/>
+            <TextBlock x:Name="tblWorker" Style="{StaticResource ReqsTBl}" Text="Исполнитель" Width="300"/>
+            <TextBlock x:Name="tblDesc" Style="{StaticResource ReqsTBl}" Text="Описание" Width="300"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ComboBox x:Name="cbxEqType" Style="{StaticResource BscCBx}"/>
+            <ComboBox x:Name="cbxStatus" Style="{StaticResource BscCBx}"/>
+            <ComboBox x:Name="cbxPrType" Style="{StaticResource BscCBx}"/>
+            <ComboBox x:Name="cbxWorker" Style="{StaticResource BscCBx}"/>
+            <TextBox x:Name="tbxDesc" Style="{StaticResource BscTBx}" Height="Auto"/>
+        </StackPanel>
+        <TextBlock x:Name="txtCheck" Grid.ColumnSpan="2" Style="{StaticResource ReqsTBl}" VerticalAlignment="Top" Width="500"/>
+        <Button x:Name="btnSave" Grid.ColumnSpan="2" Style="{StaticResource BscBtn}" Content="Сохранить" Margin="15,500,15,15" Click="btnSave_Click"/>
+    </Grid>
+</Page>
