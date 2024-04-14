@@ -175,6 +175,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>dexModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="Database\DemoEx.bacpac" />
     <None Include="dexModel.edmx.diagram">
       <DependentUpon>dexModel.edmx</DependentUpon>
     </None>
