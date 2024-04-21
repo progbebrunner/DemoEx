@@ -23,7 +23,14 @@ namespace DemoEx.Windows
         public HomeW()
         {
             InitializeComponent();
-            HomeWFr.Navigate(new RequestsP());
+            if(App.curr_user.role == 2)
+            {
+                HomeWFr.Navigate(new RequestsP());
+            }
+            else
+            {
+                HomeWFr.Navigate(new AddEdit());
+            }
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)

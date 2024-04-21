@@ -63,7 +63,10 @@
                                 <TextBlock Text="{Binding Priorities.name}" Style="{StaticResource ReqsTBl}"/>
                                 <TextBlock Text="{Binding Statuses_of_request.name}" Style="{StaticResource ReqsTBl}"/>
                             </StackPanel>
-                            <Button x:Name="btnEdit" Style="{StaticResource BscBtn}" Content="Редактировать" Click="btnEdit_Click"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button x:Name="btnEdit" Style="{StaticResource BscBtn}" Content="Редактировать" Click="btnEdit_Click"/>
+                                <Button x:Name="btnDelete" Style="{StaticResource BscBtn}" Content="Удалить" Click="btnDelete_Click"/>
+                            </StackPanel>                            
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

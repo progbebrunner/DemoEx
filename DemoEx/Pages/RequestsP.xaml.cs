@@ -38,9 +38,9 @@ namespace DemoEx.Pages
             var reqs = App.context.Requests.ToList();
             if(App.curr_user.role == 1)
             {
-                reqs = reqs.Where(r => r.client == App.curr_user.id_user).ToList();
-                
+                reqs = reqs.Where(r => r.client == App.curr_user.id_user).ToList(); 
             }
+
             if (cbxFilter.SelectedIndex > 0)
             {
                 var id_eq = App.context.Types_of_equipment.Where(t => t.name == cbxFilter.SelectedValue.ToString()).FirstOrDefault();
@@ -101,6 +101,19 @@ namespace DemoEx.Pages
             else
             {
                 MessageBox.Show("Эта функция вам недоступна");
+            }
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var req = button.DataContext as Requests;
+            if (MessageBox.Show("Вы точно хотите удалить заявку?", "Внимание!", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                App.context.Requests.Remove(req);
+                App.context.SaveChanges();
+                ReqsLoad();
+                MessageBox.Show("Заявка успешно удалена!");
             }
         }
     }

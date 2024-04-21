@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DemoEx.Windows;
+using Aspose.BarCode.Generation;
 
 namespace DemoEx.Pages
 {
@@ -58,6 +59,15 @@ namespace DemoEx.Pages
         private void tbLogin_TextChanged(object sender, TextChangedEventArgs e)
         {
             txtxError.Text = "";
+        }
+
+        private void btnQR_Click(object sender, RoutedEventArgs e)
+        {
+            string link = "https://youtu.be/qT41uNtvmmA?si=ho8x-R8YRbBNF0Gn";
+            BarcodeGenerator qrcode = new BarcodeGenerator(EncodeTypes.QR, link);
+            qrcode.Parameters.Barcode.XDimension.Pixels = 123;
+            string dir = "D:\\Мои Документы\\Рабочий стол\\Паша\\Учеба\\4 курс\\1. Экз\\";
+            qrcode.Save(dir + "QR-code.png", BarCodeImageFormat.Png);
         }
     }
 }

@@ -76,8 +76,8 @@ namespace DemoEx.Pages
                 {
                     client = App.curr_user.id_user,
                     date = DateTime.Now,
-                    type_of_eq = cbxEqType.SelectedIndex + 1,
-                    type_of_problem = cbxPrType.SelectedIndex + 1,
+                    type_of_eq = App.context.Types_of_equipment.Where(x => x.name == cbxEqType.SelectedValue.ToString()).Select(x => x.id_type_of_eq).FirstOrDefault(),
+                    type_of_problem = App.context.Types_of_problem.Where(x => x.name == cbxPrType.SelectedValue.ToString()).Select(x => x.id_type_of_problem).FirstOrDefault(),
                     description = tbxDesc.Text,
                     status = 1
                 };

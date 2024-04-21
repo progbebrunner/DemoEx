@@ -32,6 +32,7 @@
                 <PasswordBox x:Name="pbPassword" Style="{StaticResource BscPswBx}" PasswordChanged="pbPassword_PasswordChanged"/>
             </StackPanel>
             <Button x:Name="btnEnter" Content="Войти" Click="btnEnter_Click" Style="{StaticResource BscBtn}"/>
+            <Button x:Name="btnQR" Content="QR" Click="btnQR_Click" Style="{StaticResource BscBtn}"/>
             <TextBlock x:Name="txtxError" FontSize="22" HorizontalAlignment="Center" TextAlignment="Center" Width="Auto" TextWrapping="WrapWithOverflow"/>
         </StackPanel>
     </Grid>
